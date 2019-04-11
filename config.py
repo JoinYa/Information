@@ -13,6 +13,7 @@ class Config(object):
     # 在请求结束时候，如果指定此配置为 True ，那么 SQLAlchemy 会自动执行一次 db.session.commit()操作
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
+
     # Redis的配置
     REDIS_HOST = "127.0.0.1"
     REDIS_PORT = 6379

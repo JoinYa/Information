@@ -3,7 +3,8 @@ from logging.handlers import RotatingFileHandler
 
 from flask import Flask
 # 可以用来指定 session 保存的位置
-from flask_wtf import CSRFProtect
+# from flask_wtf import CSRFProtect
+from flask_wtf import CsrfProtect
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from redis import StrictRedis
@@ -44,12 +45,23 @@ def create_app(config_name):
     redis_store = StrictRedis(host=config[config_name].REDIS_HOST, port=config[config_name].REDIS_PORT,
                               decode_responses=True)
     # 开启当前项目 CSRF 保护，只做服务器验证功能
-    CSRFProtect(app)
+    CsrfProtect(app)
     # 设置session保存指定位置
     Session(app)
 
     # 注册蓝图
-    from .modules.index import index_blu
+    from info.modules.index import index_blu
     app.register_blueprint(index_blu)
 
+    from info.modules.passport import passport_blu
+    app.register_blueprint(passport_blu,url_prefix='/passport')
+
+    # from info.modules.news import news_blu
+    # app.register_blueprint(news_blu)
+    #
+    # from info.modules.profile import profile_blu
+    # app.register_blueprint(profile_blu)
+    #
+    # from info.modules.admin import admin_blu
+    # app.register_blueprint(admin_blu)
     return app
